@@ -67,14 +67,14 @@ export function Contact6() {
           </p>
 
           <div className="mt-8 grid gap-5 border-t border-neutral-lighter pt-8">
-            <a href="mailto:trey@oneillscaffolding.com" className="group flex items-start gap-4">
+            <a href="mailto:trey@oneillscaffolding.com.au" className="group flex items-start gap-4">
               <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-punch-lightest">
                 <Mail className="size-5 text-punch" />
               </div>
               <div>
                 <p className="mb-0.5 text-xs font-medium uppercase tracking-widest text-neutral">Email</p>
                 <p className="text-sm text-neutral-darkest transition-colors group-hover:text-punch">
-                  trey@oneillscaffolding.com
+                  trey@oneillscaffolding.com.au
                 </p>
               </div>
             </a>

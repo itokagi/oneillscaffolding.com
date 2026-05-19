@@ -8,7 +8,7 @@ export async function POST(request) {
     const { firstName, lastName, email, phone, inquiryType, projectType, message } =
       await request.json();
 
-    await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: "OSG Website <onboarding@resend.dev>",
       to: TO,
       reply_to: email,
@@ -34,9 +34,14 @@ export async function POST(request) {
       `,
     });
 
+    if (error) {
+      console.error("contact resend error", error);
+      return Response.json({ error: error.message }, { status: 422 });
+    }
+
     return Response.json({ success: true });
   } catch (err) {
     console.error("contact email error", err);
-    return Response.json({ error: "Failed to send" }, { status: 500 });
+    return Response.json({ error: err.message ?? "Failed to send" }, { status: 500 });
   }
 }
