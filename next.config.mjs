@@ -2,6 +2,7 @@
 const nextConfig = {
   compress: true,
   poweredByHeader: false,
+  outputFileTracingRoot: new URL(".", import.meta.url).pathname,
   images: {
     unoptimized: true,
     remotePatterns: [
