@@ -1,0 +1,21 @@
+[build]
+  command = "npm install && npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[[redirects]]
+  from = "/api/auth/forms-login"
+  to = "/.netlify/functions/forms-login"
+  status = 200
+
+[[redirects]]
+  from = "/api/auth/forms-check"
+  to = "/.netlify/functions/forms-check"
+  status = 200
+
+[[redirects]]
+  from = "/api/auth/forms-logout"
+  to = "/.netlify/functions/forms-logout"
+  status = 200
