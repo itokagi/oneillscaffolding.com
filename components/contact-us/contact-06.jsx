@@ -45,10 +45,13 @@ export function Contact6() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      if (!res.ok) throw new Error("send failed");
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "send failed");
+      }
       setSubmitted(true);
-    } catch {
-      setError("Something went wrong — please try again or call us directly.");
+    } catch (err) {
+      setError(err.message || "Something went wrong — please try again or call us directly.");
     } finally {
       setLoading(false);
     }
