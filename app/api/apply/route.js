@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 
-const TO = "trey@oneillscaffolding.com";
+const TO = "trey@oneillscaffolding.com.au";
 
 export async function POST(request) {
   const resend = new Resend(process.env.RESEND_API_KEY);
