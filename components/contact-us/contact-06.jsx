@@ -45,15 +45,10 @@ export function Contact6() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      if (!res.ok) {
-        const text = await res.text().catch(() => "");
-        let msg;
-        try { msg = JSON.parse(text).error; } catch { msg = null; }
-        throw new Error(`[${res.status}] ${msg || text.slice(0, 120) || "no body"}`);
-      }
+      if (!res.ok) throw new Error("send failed");
       setSubmitted(true);
-    } catch (err) {
-      setError(err.message || "Something went wrong — please try again or call us directly.");
+    } catch {
+      setError("Something went wrong — please try again or call us directly.");
     } finally {
       setLoading(false);
     }

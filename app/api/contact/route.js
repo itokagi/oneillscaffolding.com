@@ -1,11 +1,6 @@
 const TO = "trey@oneillscaffolding.com.au";
 
 export async function POST(request) {
-  const apiKey = (process.env["RESEND_API_KEY"] ?? "").trim();
-  if (!apiKey) return Response.json({ error: "RESEND_API_KEY not set" }, { status: 500 });
-  // debug: remove after confirming key works
-  console.log("key prefix:", apiKey.slice(0, 6), "length:", apiKey.length);
-
   try {
     const { firstName, lastName, email, phone, inquiryType, projectType, message } =
       await request.json();
