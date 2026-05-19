@@ -46,8 +46,10 @@ export function Contact6() {
         body: JSON.stringify(body),
       });
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || "send failed");
+        const text = await res.text().catch(() => "");
+        let msg;
+        try { msg = JSON.parse(text).error; } catch { msg = null; }
+        throw new Error(`[${res.status}] ${msg || text.slice(0, 120) || "no body"}`);
       }
       setSubmitted(true);
     } catch (err) {
