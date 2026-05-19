@@ -128,19 +128,25 @@ export function ApplyForm() {
     setLoading(true);
     setError(null);
 
-    const fd = new FormData();
-    fd.append("name", form.name);
-    fd.append("email", form.email);
-    fd.append("phone", form.phone);
-    fd.append("role", form.role);
-    fd.append("experience", form.experience);
-    fd.append("coverLetter", form.coverLetter);
-    form.hrwl.forEach((v) => fd.append("hrwl", v));
     const cvFile = fileRef.current?.files?.[0];
-    if (cvFile) fd.append("cv", cvFile);
+    let cvBase64 = null;
+    let cvFilename = null;
+    if (cvFile) {
+      cvBase64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(cvFile);
+      });
+      cvFilename = cvFile.name;
+    }
 
     try {
-      const res = await fetch("/api/apply", { method: "POST", body: fd });
+      const res = await fetch("/api/apply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, cvBase64, cvFilename }),
+      });
       if (!res.ok) throw new Error("send failed");
       setSubmitted(true);
     } catch {

@@ -9,9 +9,12 @@ exports.handler = async function (event) {
   }
 
   try {
-    const body = JSON.parse(event.body || "{}");
-    const { name, email, phone, role, experience, coverLetter } = body;
-    const hrwl = Array.isArray(body.hrwl) ? body.hrwl : body.hrwl ? [body.hrwl] : [];
+    const { name, email, phone, role, experience, hrwl = [], coverLetter, cvBase64, cvFilename } =
+      JSON.parse(event.body || "{}");
+
+    const attachments = cvBase64 && cvFilename
+      ? [{ filename: cvFilename, content: cvBase64 }]
+      : [];
 
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -24,6 +27,7 @@ exports.handler = async function (event) {
         to: "trey@oneillscaffolding.com.au",
         reply_to: email,
         subject: `New application — ${name} for ${role || "General position"}`,
+        attachments,
         html: `
           <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#1a1a1a">
             <div style="border-bottom:3px solid #E85A00;padding-bottom:12px;margin-bottom:24px">
@@ -38,6 +42,7 @@ exports.handler = async function (event) {
               <tr><td style="padding:8px 0;color:#666;vertical-align:top">Experience</td><td style="padding:8px 0">${experience || "—"}</td></tr>
               <tr><td style="padding:8px 0;color:#666;vertical-align:top">HRWL licences</td><td style="padding:8px 0">${hrwl.length > 0 ? hrwl.join(", ").toUpperCase() : "None listed"}</td></tr>
               <tr><td style="padding:8px 0;color:#666;vertical-align:top">Cover letter</td><td style="padding:8px 0;white-space:pre-wrap">${coverLetter || "—"}</td></tr>
+              <tr><td style="padding:8px 0;color:#666;vertical-align:top">CV attached</td><td style="padding:8px 0">${attachments.length > 0 ? `✓ ${cvFilename}` : "No file uploaded"}</td></tr>
             </table>
             <div style="margin-top:24px;padding:12px 16px;background:#fff8f5;border-left:3px solid #E85A00;font-size:13px;color:#666">
               Reply directly to this email to respond to ${name}.
