@@ -10,6 +10,24 @@
   package = "@netlify/plugin-nextjs"
 
 [[redirects]]
+  from = "/api/contact"
+  to = "/.netlify/functions/send-contact"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/quote"
+  to = "/.netlify/functions/send-quote"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/apply"
+  to = "/.netlify/functions/send-apply"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/api/auth/forms-login"
   to = "/.netlify/functions/forms-login"
   status = 200
